@@ -136,11 +136,19 @@ Message [icon: envelope, color: blue] {
   sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 }
 
+// Relationship between (Property & User)
 Property.host_id > User.user_id
+// Relationship between (Booking & User)
 Booking.user_id > User.user_id
+// Relationship between (Booking & Property)
 Booking.property_id  > Property.property_id
+// Relationship between (Payment & Booking)
 Payment.booking_id > Booking.booking_id
+// Relationship between (Message & User)
 Message.recipient_id > User.user_id
+Message.user_id > User.user_id
+// Relationship between (Review & Property)
 Review.property_id > Property.property_id
+// Relationship between (Review & User)
 Review.user_id  > User.user_id
 ```
