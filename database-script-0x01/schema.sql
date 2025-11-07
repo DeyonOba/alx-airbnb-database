@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS airbnb_clone_db;
+
+USE airbnb_clone_db;
+
 CREATE TABLE IF NOT EXISTS User (
     user_id VARCHAR(50) PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
@@ -12,25 +16,25 @@ CREATE TABLE IF NOT EXISTS Property (
     property_id VARCHAR(50) PRIMARY KEY,
     host_id VARCHAR(50) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    `description` TEXT NOT NULL,
-    `location` VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    location VARCHAR(255) NOT NULL,
     price_per_night DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (host_id) REFERENCES User(user_id) ON DELETE SET NULL
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (host_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Booking (
     booking_id VARCHAR(50) PRIMARY KEY,
     property_id VARCHAR(50) NOT NULL,
     user_id VARCHAR(50) NOT NULL,
-    `start_date` DATE NOT NULL,
+    start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL,
-    `status` VARCHAR(20) CHECK (`status` IN ('pending', 'confirmed', 'cancelled')) NOT NULL,
+    status VARCHAR(20) CHECK (`status` IN ('pending', 'confirmed', 'cancelled')) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (property_id) REFERENCES Property(property_id) ON DELETE SET NULL,
-    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE SET NULL
+    FOREIGN KEY (property_id) REFERENCES Property(property_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Payment (
@@ -39,7 +43,7 @@ CREATE TABLE IF NOT EXISTS Payment (
     amount DECIMAL(10, 2) NOT NULL,
     payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     payment_method VARCHAR(20) CHECK (payment_method IN ('credit_card', 'paypal', 'bank_transfer')) NOT NULL,
-    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id) ON DELETE SET NULL
+    FOREIGN KEY (booking_id) REFERENCES Booking(booking_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Review (
@@ -59,6 +63,6 @@ CREATE TABLE IF NOT EXISTS Message (
     recipient_id VARCHAR(50) NOT NULL,
     content TEXT NOT NULL,
     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sender_id) REFERENCES User(user_id) ON DELETE SET NULL,
-    FOREIGN KEY (recipient_id) REFERENCES User(user_id) ON DELETE SET NULL
+    FOREIGN KEY (sender_id) REFERENCES User(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (recipient_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
