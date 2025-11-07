@@ -27,6 +27,7 @@ SELECT
     r.comment
 FROM Property AS p
 JOIN Review AS r
-    ON p.property_id = r.property_id;
+    ON p.property_id = r.property_id
+ORDER BY r.rating DESC;
 
 SELECT * FROM User FULL OUTER JOIN Booking ON User.user_id = Booking.user_id;
