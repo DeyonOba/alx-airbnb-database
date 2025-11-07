@@ -7,7 +7,7 @@ FROM (
     FROM Review
     GROUP BY property_id
 ) AS r
-WHERE r.rating > 4;
+WHERE r.rating > 4.0;
 
 -- Query to find users who have made more than 3 bookings
 SELECT user_id, first_name, last_name
