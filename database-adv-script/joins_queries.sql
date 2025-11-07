@@ -26,7 +26,7 @@ SELECT
     r.rating,
     r.comment
 FROM Property AS p
-JOIN Review AS r
+LEFT JOIN Review AS r
     ON p.property_id = r.property_id
 ORDER BY r.rating DESC;
 
