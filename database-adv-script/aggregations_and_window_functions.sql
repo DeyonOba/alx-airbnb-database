@@ -7,7 +7,7 @@ LEFT JOIN Booking b
     ON u.user_id = b.user_id
 GROUP BY u.user_id;
 
-
+-- Query to get the rank and row number of properties based on the number of bookings
 SELECT
     p.property_id,
     COUNT(b.property_id) AS total_booking,
