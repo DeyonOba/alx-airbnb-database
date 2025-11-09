@@ -24,3 +24,15 @@ CREATE INDEX idx_booking_date_range ON Booking(start_date, end_date);
 
 -- Composite index on Message sender_id and receiver_id for efficient message retrieval
 CREATE INDEX idx_message_sender_recipient ON Message(sender_id, recipient_id);
+
+
+EXPLAIN ANALYZE
+SELECT
+    p.property_id,
+    COUNT(b.property_id) AS total_booking,
+    RANK() OVER (ORDER BY COUNT(b.property_id) DESC) AS booking_rank,
+    ROW_NUMBER() OVER (ORDER BY COUNT(b.property_id) DESC) AS booking_row_number
+FROM Property AS p
+JOIN Booking AS b
+    ON p.property_id = b.property_id
+GROUP BY p.property_id;
